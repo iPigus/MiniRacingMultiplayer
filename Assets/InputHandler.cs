@@ -10,15 +10,15 @@ public class InputHandler : MonoBehaviour
     {
         Controller = GetComponent<TopDownCarController>();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+
     void Update()
     {
-        
+        Vector2 inputVector = new();
+
+        inputVector.x = Input.GetAxis("Horizontal");
+        inputVector.y = Input.GetAxis("Vertical");
+
+        Controller.SetInput(inputVector); 
     }
 }
