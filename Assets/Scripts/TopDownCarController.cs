@@ -16,12 +16,12 @@ public class TopDownCarController : MonoBehaviour
     [Range(0f, 100f)]
     public float MaxSpeedInReverse = 2f;
 
-    float accerelationInput = 0;
-    float steeringInput = 0;
+    public float accerelationInput { get; private set; } = 0;
+    public float steeringInput { get; private set; } = 0;
 
     float rotationAngle = 0;
 
-    float velocityVsUp = 0;
+    public float velocityVsUp { get; private set; } = 0;
 
     Rigidbody2D Rigidbody;
 

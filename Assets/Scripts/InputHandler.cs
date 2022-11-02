@@ -1,6 +1,8 @@
+using Riptide;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NetworkManager;
 
 public class InputHandler : MonoBehaviour
 {
@@ -19,6 +21,16 @@ public class InputHandler : MonoBehaviour
         inputVector.x = Input.GetAxis("Horizontal");
         inputVector.y = Input.GetAxis("Vertical");
 
-        Controller.SetInput(inputVector); 
+        Controller.SetInput(inputVector);
+
+        if (isClient) SendInput(inputVector);
+    }
+    void SendInput(Vector2 inputVector)
+    {
+        Message message = Message.Create(MessageSendMode.Unreliable, ClientToServerId.playerInputs);
+
+        message.AddVector2(inputVector);
+
+        ClientManager.Singleton.client.Send(message);
     }
 }

@@ -8,6 +8,7 @@ public abstract class NetworkManager : MonoBehaviour
     public ushort CurrentTick { get; protected set; }
     public enum ClientToServerId : ushort 
     { 
+        playerInfo,
         playerInputs
     }
     public enum ServerToClientId : ushort
@@ -15,7 +16,8 @@ public abstract class NetworkManager : MonoBehaviour
         gameStart,
         carPositions,
         carPhysicsData,
-        places
+        placements,
+        carInfos // for spawn
     }  
 
     public static NetworkManager GetNetworkManager => FindObjectOfType<NetworkManager>();

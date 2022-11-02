@@ -43,6 +43,10 @@ public class ServerManager : NetworkManager
     }
     private void OnApplicationQuit() => server.Stop();
 
+    void SendStartGame()
+    {
+        Message message = Message.Create(MessageSendMode.Reliable, ServerToClientId.gameStart);
 
-
+        server.SendToAll(message);
+    }
 }
