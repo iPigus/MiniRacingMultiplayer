@@ -28,6 +28,8 @@ public class TopDownCarController : MonoBehaviour
     private void Awake()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
+
+        rotationAngle = Rigidbody.rotation;
     }
     private void FixedUpdate()
     {
@@ -49,7 +51,7 @@ public class TopDownCarController : MonoBehaviour
 
         if (accerelationInput == 0)
         {
-            Rigidbody.drag = Mathf.Lerp(Rigidbody.drag, 3.0f, Time.fixedDeltaTime * 3f);
+            Rigidbody.drag = Mathf.Lerp(Rigidbody.drag, 2.0f, Time.fixedDeltaTime * 2f);
         }
         else
         {
@@ -73,7 +75,7 @@ public class TopDownCarController : MonoBehaviour
 
     public void SetInput(Vector2 inputVector)
     {
-        steeringInput = inputVector.x;
+        steeringInput = inputVector.y >= 0 ? inputVector.x : -inputVector.x;
         accerelationInput = inputVector.y; 
     }
     void KillOrthogonalVelocity()

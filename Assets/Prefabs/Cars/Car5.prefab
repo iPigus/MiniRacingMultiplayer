@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6716649342256385109}
   - component: {fileID: 6716649342256385111}
   m_Layer: 0
-  m_Name: Car
+  m_Name: Car5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 970361015, guid: 6d449e2fbee758242b6f8d25c856c6df, type: 3}
+  m_Sprite: {fileID: 1368105342, guid: 6d449e2fbee758242b6f8d25c856c6df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -146,11 +146,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64e438ae1998f9449b357a09836fdbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Accerelation: 30
-  TurnFactor: 3.5
+  Accerelation: 24
+  TurnFactor: 4.2
   DriftFactor: 0.95
-  MaxSpeed: 5
-  MaxSpeedInReverse: 2
+  MaxSpeed: 15
+  MaxSpeedInReverse: 3
 --- !u!60 &6716649342256385111
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -168,7 +168,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.8125, y: 1.34375}
+    oldSize: {x: 0.875, y: 1.375}
     newSize: {x: 0.8125, y: 1.34375}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -176,12 +176,14 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.19761238, y: 0.64044243}
-      - {x: -0.27178755, y: 0.5627747}
-      - {x: -0.27017, y: 0.560985}
+    - - {x: -0.09407663, y: 0.6588204}
+      - {x: -0.15385655, y: 0.6258571}
+      - {x: -0.24598283, y: 0.5930673}
+      - {x: -0.31504783, y: 0.5273267}
       - {x: -0.31125522, y: -0.45285928}
-      - {x: -0.28222904, y: -0.63757133}
-      - {x: 0.28000522, y: -0.63757133}
+      - {x: -0.24775317, y: -0.62572026}
+      - {x: 0.24954545, y: -0.6240337}
       - {x: 0.31125522, y: -0.47438416}
-      - {x: 0.27004218, y: 0.5575351}
-      - {x: 0.21801972, y: 0.64393497}
+      - {x: 0.31491995, y: 0.52612066}
+      - {x: 0.2514242, y: 0.5930007}
+      - {x: 0.094605744, y: 0.6585203}
