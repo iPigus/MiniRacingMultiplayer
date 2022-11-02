@@ -22,21 +22,30 @@ public class PromptManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) isLeftSideOn = false;
 
+        if (Input.GetMouseButtonDown(1)) UnpauseGame();
+
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
         {
             if (isLeftSideOn)
             {
-                SceneManager.LoadScene(0);
+                BackToMenu();
             }
             else
             {
-                Time.timeScale = 1f;
-
-                this.gameObject.SetActive(false);
+                UnpauseGame();
             }
         }
 
         Arrows[0].SetActive(isLeftSideOn);
         Arrows[1].SetActive(!isLeftSideOn);
+    }
+
+    public void BackToMenu() => SceneManager.LoadScene(0);
+
+    public void UnpauseGame()
+    {
+        Time.timeScale = 1f;
+
+        this.gameObject.SetActive(false);
     }
 }
