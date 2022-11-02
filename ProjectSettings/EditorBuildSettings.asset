@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 178e0521ca1e3994b975883954d7efe8
+  - enabled: 1
     path: Assets/Scenes/MiniTrack.unity
     guid: 4d776d1d6119b3940896c703aba00537
   m_configObjects: {}

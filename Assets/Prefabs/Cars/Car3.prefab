@@ -148,7 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Accerelation: 25
   TurnFactor: 3
-  DriftFactor: 0.97
+  DriftFactor: 0.98
   MaxSpeed: 11
   MaxSpeedInReverse: 3
 --- !u!60 &6716649342256385111
