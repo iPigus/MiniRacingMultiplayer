@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CarSpawner : MonoBehaviour
 {
@@ -15,8 +16,9 @@ public class CarSpawner : MonoBehaviour
         {
             carSpawned.AddComponent<CarNetwork>().CarId = 0;
         }
-
-        Time.timeScale = 1f;
+        
+        if(!SceneManager.GetActiveScene().name.Contains("Time"))
+            Time.timeScale = 1f;
     }
 
     private void Update()

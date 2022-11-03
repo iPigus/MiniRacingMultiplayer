@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TopDownCarController : MonoBehaviour
@@ -16,7 +17,13 @@ public class TopDownCarController : MonoBehaviour
     [Range(0f, 100f)]
     public float MaxSpeedInReverse = 2f;
 
-    public bool isOnTrack = true;
+    float RoadMaxSpeedFactor => (.1f * WheelsOnTrack) + 0.6f;
+    float RoadAccerelationFactor => (.05f * WheelsOnTrack) + 0.8f;
+    float RoadDriftFactorFactor => 1.04f - (.01f * WheelsOnTrack);
+
+    [SerializeField] Wheel[] Wheels;
+
+    public int WheelsOnTrack => Wheels.ToList().Where(x => x.isOnTrack).ToList().Count;
 
     public float accerelationInput { get; private set; } = 0;
     public float steeringInput { get; private set; } = 0;
@@ -45,9 +52,9 @@ public class TopDownCarController : MonoBehaviour
     {
         velocityVsUp = Vector2.Dot(transform.up, Rigidbody.velocity);
 
-        if (velocityVsUp > MaxSpeed && accerelationInput > 0) return;
+        if (velocityVsUp > MaxSpeed * RoadMaxSpeedFactor && accerelationInput > 0) return;
 
-        if (velocityVsUp < -MaxSpeedInReverse && accerelationInput < 0) return;
+        if (velocityVsUp < - MaxSpeedInReverse && accerelationInput < 0) return;
 
         if (Rigidbody.velocity.sqrMagnitude > MaxSpeed * MaxSpeed && accerelationInput > 0) return;
 
@@ -61,7 +68,7 @@ public class TopDownCarController : MonoBehaviour
         }
         
 
-        Vector2 engineForce = transform.up * accerelationInput * Accerelation;
+        Vector2 engineForce = transform.up * accerelationInput * Accerelation * RoadAccerelationFactor;
 
         Rigidbody.AddForce(engineForce, ForceMode2D.Force);
     }                                                                                               
@@ -85,19 +92,6 @@ public class TopDownCarController : MonoBehaviour
         Vector2 forwardVelocity = transform.up * Vector2.Dot(Rigidbody.velocity, transform.up);
         Vector2 rightVelocity = transform.right * Vector2.Dot(Rigidbody.velocity, transform.right);
 
-        Rigidbody.velocity = forwardVelocity + rightVelocity * DriftFactor;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Road")) isOnTrack = true;   
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Road")) isOnTrack = false;   
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Road")) isOnTrack = true;   
+        Rigidbody.velocity = forwardVelocity + rightVelocity * (DriftFactor * RoadDriftFactorFactor);
     }
 }
