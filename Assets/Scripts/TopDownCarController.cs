@@ -16,6 +16,8 @@ public class TopDownCarController : MonoBehaviour
     [Range(0f, 100f)]
     public float MaxSpeedInReverse = 2f;
 
+    public bool isOnTrack = true;
+
     public float accerelationInput { get; private set; } = 0;
     public float steeringInput { get; private set; } = 0;
 
@@ -62,20 +64,20 @@ public class TopDownCarController : MonoBehaviour
         Vector2 engineForce = transform.up * accerelationInput * Accerelation;
 
         Rigidbody.AddForce(engineForce, ForceMode2D.Force);
-    }
+    }                                                                                               
     void ApplySteering()
     {
         float minSpeedBeforeTurningFactor = Rigidbody.velocity.magnitude / 8;
         minSpeedBeforeTurningFactor = Mathf.Clamp01(minSpeedBeforeTurningFactor); 
 
-        rotationAngle -= steeringInput * TurnFactor * minSpeedBeforeTurningFactor;
+        rotationAngle -= (velocityVsUp >= 0 ? steeringInput : -steeringInput) * TurnFactor * minSpeedBeforeTurningFactor;
 
         Rigidbody.MoveRotation(rotationAngle);
     }
 
     public void SetInput(Vector2 inputVector)
     {
-        steeringInput = inputVector.y >= 0 ? inputVector.x : -inputVector.x;
+        steeringInput = inputVector.x;
         accerelationInput = inputVector.y; 
     }
     void KillOrthogonalVelocity()
@@ -84,5 +86,18 @@ public class TopDownCarController : MonoBehaviour
         Vector2 rightVelocity = transform.right * Vector2.Dot(Rigidbody.velocity, transform.right);
 
         Rigidbody.velocity = forwardVelocity + rightVelocity * DriftFactor;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Road")) isOnTrack = true;   
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Road")) isOnTrack = false;   
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Road")) isOnTrack = true;   
     }
 }
