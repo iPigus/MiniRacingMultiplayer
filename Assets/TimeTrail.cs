@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Diagnostics;
 using UnityEngine.Rendering;
 using System.Linq;
+using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class TimeTrail : MonoBehaviour
 {
@@ -33,6 +35,13 @@ public class TimeTrail : MonoBehaviour
         StartCoroutine(StartGameCountdown());
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R)) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        if (Input.GetKeyDown(KeyCode.L)) PlayerPrefs.SetFloat("BestTime", 0f);
+    }
+
     public void EnteredZone(int zoneIndex)
     {
         Zones[zoneIndex] = true;
@@ -42,7 +51,10 @@ public class TimeTrail : MonoBehaviour
     {
         if (isAllZonesGood)
         {
-            Zones.ToList().ForEach(x => x = false);
+            for (int i = 0; i < Zones.Length; i++)
+            {
+                Zones[i] = false;
+            }
 
             DisplayLapTime();
         }
@@ -58,7 +70,7 @@ public class TimeTrail : MonoBehaviour
         else
         {
             if((float)stopwatch.Elapsed.TotalSeconds > PlayerPrefs.GetFloat("BestTime"))
-                LapTimeText.text = string.Format("{0:#,0.000}", stopwatch.Elapsed) + "s" + " <color=red>+" + string.Format("{0:#,0.000}", ((float)stopwatch.Elapsed.TotalSeconds - PlayerPrefs.GetFloat("BestTime"))) + "</color>";
+                LapTimeText.text = string.Format("{0:#,0.000}", stopwatch.Elapsed.TotalSeconds) + "s" + " <color=red>+" + string.Format("{0:#,0.000}", ((float)stopwatch.Elapsed.TotalSeconds - PlayerPrefs.GetFloat("BestTime"))) + "</color>";
             else
             {
                 LapTimeText.text = string.Format("{0:#,0.000}", stopwatch.Elapsed.TotalSeconds) + "s" + " <color=green>" + string.Format("{0:#,0.000}", ((float)stopwatch.Elapsed.TotalSeconds - PlayerPrefs.GetFloat("BestTime"))) + "</color>";
