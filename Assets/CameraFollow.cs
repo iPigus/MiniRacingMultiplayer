@@ -10,7 +10,7 @@ public class CameraFollow : MonoBehaviour
     public Vector2 followOffset;
     public float speed = 3f;
     private Vector2 threshold;
-    private Rigidbody2D rb;
+    private Rigidbody2D rb => followObject.GetComponent<Rigidbody2D>();
 
     private void Awake()
     {
@@ -19,11 +19,12 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         threshold = calculateThreshold();
-        rb = followObject.GetComponent<Rigidbody2D>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
+        if (!followObject) return;
+
         Vector2 follow = followObject.transform.position;
         float xDifference = Vector2.Distance(Vector2.right * transform.position.x, Vector2.right * follow.x);
         float yDifference = Vector2.Distance(Vector2.up * transform.position.y, Vector2.up * follow.y);

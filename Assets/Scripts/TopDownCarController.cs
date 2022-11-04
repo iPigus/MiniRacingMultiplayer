@@ -40,6 +40,10 @@ public class TopDownCarController : MonoBehaviour
 
         rotationAngle = Rigidbody.rotation;
     }
+    private void Start()
+    {
+        CameraFollow.Singleton.followObject = this.gameObject;
+    }
     private void FixedUpdate()
     {
         ApplyEngineForce();

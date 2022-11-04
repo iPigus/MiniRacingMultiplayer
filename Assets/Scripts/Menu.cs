@@ -70,6 +70,7 @@ public class Menu : MonoBehaviour
         EnterMainMenu();
         CarSelectionArrowsUpdate();
         GamemodeSelectionArrowsUpdate();
+        MultiSelectionArrowsUpdate();
     }
 
     private void Update()
@@ -140,6 +141,8 @@ public class Menu : MonoBehaviour
                     default: Debug.LogError("YposMulti switch unreachable!"); break;
                 }
             }
+
+            MultiSelectionArrowsUpdate();
         }
     }
 
@@ -178,6 +181,20 @@ public class Menu : MonoBehaviour
             else
             {
                 if (ArrowsInGamemodeSelection[i].activeSelf) ArrowsInGamemodeSelection[i].SetActive(false);
+            }
+        }
+    }
+    void MultiSelectionArrowsUpdate()
+    {
+        for (int i = 0; i < ArrowsInMultiSelection.Length; i++)
+        {
+            if (i == YposMultiSelection)
+            {
+                if (!ArrowsInMultiSelection[i].activeSelf) ArrowsInMultiSelection[i].SetActive(true);
+            }
+            else
+            {
+                if (ArrowsInMultiSelection[i].activeSelf) ArrowsInMultiSelection[i].SetActive(false);
             }
         }
     }
