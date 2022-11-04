@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -17,6 +19,8 @@ public class Menu : MonoBehaviour
     bool isInSelectionScreen => SelectionScreen.activeSelf;
     bool isInGamemodeSelectionScreen => GamemodeSelectionScreen.activeSelf;
     bool isInMultiSelectionScreen => MultiSelectionScreen.activeSelf;
+
+    #region Arrows and Controllers for them
 
     [SerializeField] GameObject[] ArrowsInCarSelection; // the first one is back arrow 
 
@@ -43,6 +47,23 @@ public class Menu : MonoBehaviour
             _YposGamemode = value;
         }
     }
+
+    [SerializeField] GameObject[] ArrowsInMultiSelection;
+    [SerializeField] TMP_InputField ipField;
+
+    int _YposMultiSelection = 2;
+    int YposMultiSelection
+    {
+        get => _YposMultiSelection;
+        set
+        {
+            if (value < 0 || ArrowsInMultiSelection.Length <= value) return;
+
+            _YposMultiSelection = value;
+        }
+    }
+
+    #endregion
 
     private void Awake()
     {
@@ -105,7 +126,20 @@ public class Menu : MonoBehaviour
         }
         else if (isInMultiSelectionScreen)
         {
-
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) YposMultiSelection--;
+            else
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) YposMultiSelection++;
+            else
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            {
+                switch (YposGamemode)
+                {
+                    case 0: Back(); break;
+                    case 1: 
+                    case 2: PlayerPrefs.SetString("ip", ipField.text); DontDestroyOnLoad(new GameObject().AddComponent<ClientManager>()); break;
+                    default: Debug.LogError("YposMulti switch unreachable!"); break;
+                }
+            }
         }
     }
 
