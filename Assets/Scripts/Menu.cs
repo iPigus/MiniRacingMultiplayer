@@ -67,6 +67,8 @@ public class Menu : MonoBehaviour
 
     private void Awake()
     {
+        Application.runInBackground = true;
+
         EnterMainMenu();
         CarSelectionArrowsUpdate();
         GamemodeSelectionArrowsUpdate();
@@ -133,11 +135,14 @@ public class Menu : MonoBehaviour
             else
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
             {
-                switch (YposGamemode)
+                switch (YposMultiSelection)
                 {
                     case 0: Back(); break;
-                    case 1: 
-                    case 2: PlayerPrefs.SetString("ip", ipField.text); DontDestroyOnLoad(new GameObject().AddComponent<ClientManager>()); break;
+                    case 1: SceneManager.LoadScene(3); break;
+                    case 2: PlayerPrefs.SetString("ip", ipField.text);
+                        DontDestroyOnLoad(new GameObject().AddComponent<ClientManager>());
+                        ClientManager.Singleton.Connect();
+                        break;
                     default: Debug.LogError("YposMulti switch unreachable!"); break;
                 }
             }

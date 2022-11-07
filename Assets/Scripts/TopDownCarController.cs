@@ -42,7 +42,8 @@ public class TopDownCarController : MonoBehaviour
     }
     private void Start()
     {
-        CameraFollow.Singleton.followObject = this.gameObject;
+        if(CameraFollow.Singleton)
+            CameraFollow.Singleton.followObject = this.gameObject;
     }
     private void FixedUpdate()
     {

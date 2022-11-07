@@ -13,7 +13,7 @@ public class ClientManager : NetworkManager
     public Client client { get; private set; }
 
     ushort port => 7777;
-    string ip => PlayerPrefs.GetString("IP");
+    string ip => PlayerPrefs.GetString("ip");
     public ushort TickDivergenceTolerance { get; private set; } = 1;
     public bool isTryingToConnect { get; private set; } = false;
     public ushort TickPing { get; private set; } = 0;
