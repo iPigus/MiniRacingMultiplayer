@@ -12,9 +12,10 @@ public class CarSpawner : MonoBehaviour
     {
         GameObject carSpawned = Instantiate(Cars[PlayerPrefs.GetInt("CarChosen")], transform.position, transform.rotation);
 
-        if (GetComponent<NetworkManager>())
+        if (GetComponent<ServerManager>())
         {
             carSpawned.AddComponent<CarNetwork>().CarId = 0;
+            ServerManager.SetCarInfo(0,(ushort)PlayerPrefs.GetInt("CarChosen"), carSpawned.transform.position);
         }
         
         if(!SceneManager.GetActiveScene().name.Contains("Time"))

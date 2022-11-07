@@ -18,7 +18,7 @@ public class CameraFollow : MonoBehaviour
     }
     void Start()
     {
-        threshold = calculateThreshold();
+        threshold = calculateThreshold();             
     }
 
     void Update()

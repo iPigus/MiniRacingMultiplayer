@@ -1,7 +1,9 @@
 using Riptide;
 using Riptide.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ServerManager : NetworkManager
@@ -30,7 +32,18 @@ public class ServerManager : NetworkManager
         CurrentTick = 0;
 
         server.ClientDisconnected += PlayerLeft;
+        server.ClientConnected += PlayerConneted;
     }
+
+    List<Message> messagesToSendAtSpawn = new();
+
+    private void PlayerConneted(object sender, ServerConnectedEventArgs e)
+    {
+        SendStartGame();
+
+        messagesToSendAtSpawn.ToList().ForEach(x => server.SendToAll(x));
+    }
+
     void PlayerLeft(object sender, ServerDisconnectedEventArgs e)
     {
         
@@ -48,5 +61,15 @@ public class ServerManager : NetworkManager
         Message message = Message.Create(MessageSendMode.Reliable, ServerToClientId.gameStart);
 
         server.SendToAll(message);
+    }
+    public static void SetCarInfo(ushort playerId, ushort carId, Vector2 carPos)
+    {
+        Message message = Message.Create(MessageSendMode.Reliable, ServerToClientId.carInfos);
+
+        message.AddUShort(playerId);
+        message.AddUShort(carId);
+        message.AddVector2(carPos);
+
+        Singleton.messagesToSendAtSpawn.Add(message);
     }
 }
