@@ -62,13 +62,14 @@ public class ServerManager : NetworkManager
 
         server.SendToAll(message);
     }
-    public static void SetCarInfo(ushort playerId, ushort carId, Vector2 carPos)
+    public static void SetCarInfo(ushort playerId, ushort carId, Vector2 carPos, float carZrotation)
     {
         Message message = Message.Create(MessageSendMode.Reliable, ServerToClientId.carInfos);
 
         message.AddUShort(playerId);
         message.AddUShort(carId);
         message.AddVector2(carPos);
+        message.AddFloat(carZrotation);
 
         Singleton.messagesToSendAtSpawn.Add(message);
     }

@@ -25,12 +25,12 @@ public class TopDownCarController : MonoBehaviour
 
     public int WheelsOnTrack => Wheels.ToList().Where(x => x.isOnTrack).ToList().Count;
 
-    public float accerelationInput { get; private set; } = 0;
-    public float steeringInput { get; private set; } = 0;
+    public float accerelationInput { get; set; } = 0;
+    public float steeringInput { get; set; } = 0;
 
     float rotationAngle = 0;
 
-    public float velocityVsUp { get; private set; } = 0;
+    public float velocityVsUp { get; set; } = 0;
 
     Rigidbody2D Rigidbody;
 

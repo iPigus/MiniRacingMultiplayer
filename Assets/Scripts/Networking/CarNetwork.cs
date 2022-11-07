@@ -6,6 +6,8 @@ using static NetworkManager;
 
 public class CarNetwork : MonoBehaviour
 {
+    public static Dictionary<ushort, CarNetwork> list = new();
+
     public ushort CarId { get; set; }   // 0 - server
 
     Rigidbody2D Rigidbody;
@@ -17,6 +19,10 @@ public class CarNetwork : MonoBehaviour
     {                                               
         Rigidbody = GetComponent<Rigidbody2D>();
         CarController = GetComponent<TopDownCarController>();
+
+        CarId = (ushort)list.Count;
+
+        list.Add(CarId,this);
     }
 
     private void FixedUpdate()
@@ -25,9 +31,11 @@ public class CarNetwork : MonoBehaviour
         
         lastPosition = Rigidbody.position;
 
-        SendCarPosition();
-
-        SendCarData();
+        if (isServer)
+        {
+            SendCarPosition();
+            SendCarData();
+        }
     }
     void SendCarPosition()
     {
@@ -53,5 +61,27 @@ public class CarNetwork : MonoBehaviour
         message.AddFloat(CarController.velocityVsUp);
 
         ServerManager.Singleton.server.SendToAll(message);
+    }
+
+    [MessageHandler((ushort)ServerToClientId.carPositions)]
+    public static void SetCarPosition(Message message)
+    {
+        if (list.TryGetValue(message.GetUShort(), out CarNetwork car))
+        {
+            car.Rigidbody.position = message.GetVector2();
+            car.Rigidbody.rotation = message.GetFloat();
+        }
+    }
+
+    [MessageHandler((ushort)ServerToClientId.carPhysicsData)]
+    public static void SetCarPhysicsData(Message message)
+    {
+        if (list.TryGetValue(message.GetUShort(), out CarNetwork car))
+        {
+            car.Rigidbody.velocity = message.GetVector2();
+            car.CarController.accerelationInput = message.GetFloat();
+            car.CarController.steeringInput = message.GetFloat();
+            car.CarController.velocityVsUp = message.GetFloat();
+        }
     }
 }
