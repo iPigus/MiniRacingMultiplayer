@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 3
+  m_text: Waiting for the opponent...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5687e2208f936544c8225f168620c725, type: 2}
   m_sharedMaterial: {fileID: -2497055631730175193, guid: 5687e2208f936544c8225f168620c725, type: 2}
@@ -208,8 +208,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 200
-  m_fontSizeBase: 200
+  m_fontSize: 72
+  m_fontSizeBase: 72
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -714,6 +714,7 @@ GameObject:
   - component: {fileID: 1206471293}
   - component: {fileID: 1206471292}
   - component: {fileID: 1206471291}
+  - component: {fileID: 1206471295}
   m_Layer: 0
   m_Name: Timer Canvas
   m_TagString: Untagged
@@ -804,6 +805,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1206471295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206471290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22c8b7d1b303c0a49aa2ad5349c236b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimerText: {fileID: 35613085}
+  TimerCanvas: {fileID: 1206471290}
 --- !u!1 &1227480079
 GameObject:
   m_ObjectHideFlags: 0
