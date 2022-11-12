@@ -57,7 +57,7 @@ public class ClientManager : NetworkManager
     }
     void DidConnect(object sender, EventArgs e)
     {
-        
+        SceneManager.LoadScene(4);
     }
     void FailedToConnect(object sender, EventArgs e)
     {
@@ -67,5 +67,13 @@ public class ClientManager : NetworkManager
     {
         SceneManager.LoadScene(0);
         Destroy(this.gameObject);
+    }
+
+    [MessageHandler((ushort)ServerToClientId.gameStart)]
+    public static void RecivingGameStartData(Message message)
+    {
+        if (SceneManager.GetActiveScene().buildIndex != 4) SceneManager.LoadScene(4);
+
+        
     }
 }
