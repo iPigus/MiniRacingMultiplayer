@@ -69,7 +69,11 @@ public class CarNetwork : MonoBehaviour
         if (list.TryGetValue(message.GetUShort(), out CarNetwork car))
         {
             car.Rigidbody.position = message.GetVector2();
-            car.Rigidbody.rotation = message.GetFloat();
+
+            float rotationZ = message.GetFloat();
+
+            car.Rigidbody.rotation = rotationZ;
+            car.GetComponent<TopDownCarController>().rotationAngle = rotationZ;
         }
     }
 

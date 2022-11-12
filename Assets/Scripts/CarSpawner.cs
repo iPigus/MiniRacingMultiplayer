@@ -50,6 +50,10 @@ public class CarSpawner : MonoBehaviour
         GameObject carSpawned = Instantiate(Singleton.Cars[carId], message.GetVector2(), Quaternion.identity);
 
         carSpawned.AddComponent<CarNetwork>().CarId = playerId;
-        carSpawned.GetComponent<Rigidbody2D>().rotation = message.GetFloat();
+
+        float rotationZ = message.GetFloat();
+
+        carSpawned.GetComponent<Rigidbody2D>().rotation = rotationZ;
+        carSpawned.GetComponent<TopDownCarController>().rotationAngle = rotationZ;
     }
 }
