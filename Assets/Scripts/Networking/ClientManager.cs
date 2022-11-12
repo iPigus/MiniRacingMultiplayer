@@ -74,6 +74,6 @@ public class ClientManager : NetworkManager
     {
         if (SceneManager.GetActiveScene().buildIndex != 4) SceneManager.LoadScene(4);
 
-        
+        GameTimer.Singleton.StartCountdown();
     }
 }

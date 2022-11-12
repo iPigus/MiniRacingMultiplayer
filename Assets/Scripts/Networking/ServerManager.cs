@@ -40,6 +40,7 @@ public class ServerManager : NetworkManager
     private void PlayerConneted(object sender, ServerConnectedEventArgs e)
     {
         SendStartGame();
+        GameTimer.Singleton.StartCountdown();
 
         messagesToSendAtSpawn.ToList().ForEach(x => server.SendToAll(x));
     }
