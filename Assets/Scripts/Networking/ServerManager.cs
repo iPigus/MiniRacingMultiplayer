@@ -16,6 +16,8 @@ public class ServerManager : NetworkManager
 
     private void Awake()
     {
+        Debug.Log("Creating ServerManager!");
+
         Singleton = this;
 
         Application.runInBackground = true;

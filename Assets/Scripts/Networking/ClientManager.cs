@@ -22,6 +22,8 @@ public class ClientManager : NetworkManager
 
     private void Awake()
     {
+        Debug.Log("Creating ClientManager!");
+
         Singleton = this;
         DontDestroyOnLoad(this);
         RiptideLogger.Initialize(Debug.Log, Debug.Log, Debug.LogWarning, Debug.LogError, false);
