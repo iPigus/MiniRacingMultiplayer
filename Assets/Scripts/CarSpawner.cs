@@ -26,7 +26,7 @@ public class CarSpawner : MonoBehaviour
         if (FindObjectOfType<ServerManager>())
         {
             carSpawned.AddComponent<CarNetwork>().CarId = 0;
-            ServerManager.SetCarInfo(0,(ushort)PlayerPrefs.GetInt("CarChosen"), carSpawned.transform.position, carSpawned.GetComponent<Rigidbody2D>().rotation);
+            ServerManager.SendCarInfo(0,(ushort)PlayerPrefs.GetInt("CarChosen"), carSpawned.transform.position, carSpawned.GetComponent<Rigidbody2D>().rotation);
         }
         
         if(!SceneManager.GetActiveScene().name.Contains("Time"))
@@ -38,7 +38,7 @@ public class CarSpawner : MonoBehaviour
         GameObject carSpawned = Instantiate(Cars[carChosen], new Vector3(-6.77f, 4.45f, 0f), transform.rotation);
 
         carSpawned.AddComponent<CarNetwork>().CarId = 1;
-        ServerManager.SetCarInfo(1, (ushort)carChosen, carSpawned.transform.position, carSpawned.GetComponent<Rigidbody2D>().rotation);
+        ServerManager.SendCarInfo(1, (ushort)carChosen, carSpawned.transform.position, carSpawned.GetComponent<Rigidbody2D>().rotation);
     }
 
     private void Update()
