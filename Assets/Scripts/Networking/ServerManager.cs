@@ -78,10 +78,16 @@ public class ServerManager : NetworkManager
         Singleton.messagesToSendAtSpawn.Add(message);
     }
     [MessageHandler((ushort)ClientToServerId.playerInfo)]
-    public static void RecivingPlayerInfo(Message message)
+    public static void RecivingPlayerInfo(ushort fromPlayerId,Message message)
     {
         int carChosen = message.GetInt();
 
         CarSpawner.Singleton.SpawnClientCar(carChosen);
+    }
+
+    [MessageHandler((ushort)ClientToServerId.playerInputs)]
+    public static void RecivingPlayerInputs(ushort fromPlayerId, Message message)
+    {
+        
     }
 }

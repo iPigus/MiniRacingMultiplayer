@@ -13,7 +13,7 @@ public abstract class NetworkManager : MonoBehaviour
     }
     public enum ServerToClientId : ushort
     {
-        gameStart = 1000,
+        gameStart = 0,
         carPositions,
         carPhysicsData,
         placements,
