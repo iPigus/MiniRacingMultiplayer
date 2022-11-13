@@ -88,6 +88,9 @@ public class ServerManager : NetworkManager
     [MessageHandler((ushort)ClientToServerId.playerInputs)]
     public static void RecivingPlayerInputs(ushort fromPlayerId, Message message)
     {
-        
+        if (CarNetwork.list.TryGetValue(fromPlayerId, out CarNetwork car))
+        {
+            car.SetCarInput(message.GetVector2());
+        }
     }
 }

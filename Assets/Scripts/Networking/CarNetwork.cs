@@ -16,7 +16,7 @@ public class CarNetwork : MonoBehaviour
     Vector2 lastPosition = new();
 
     private void Awake()
-    {                                               
+    {
         Rigidbody = GetComponent<Rigidbody2D>();
         CarController = GetComponent<TopDownCarController>();
 
@@ -49,6 +49,9 @@ public class CarNetwork : MonoBehaviour
         SendCarPosition();
         SendCarData();
     }
+
+    #region Sending Car Data and Reciving it (Positions and CarData)
+
     void SendCarPosition()
     {
         Message message = Message.Create(MessageSendMode.Unreliable, ServerToClientId.carPositions);
@@ -100,4 +103,15 @@ public class CarNetwork : MonoBehaviour
             car.CarController.velocityVsUp = message.GetFloat();
         }
     }
+
+    #endregion
+
+    #region 
+
+    public void SetCarInput(Vector2 input)
+    {
+        CarController.SetInput(input);
+    }
+
+    #endregion
 }
