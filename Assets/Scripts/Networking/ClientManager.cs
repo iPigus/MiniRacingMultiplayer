@@ -49,14 +49,8 @@ public class ClientManager : NetworkManager
 
         client.Connect($"{ip}:{port}");
     }
-    private void OnApplicationQuit()
-    {
-        client.Disconnect();
-    }
-    private void OnDestroy()
-    {
-        client.Disconnect();
-    }
+    private void OnApplicationQuit() => client.Disconnect();
+    private void OnDestroy() => client.Disconnect();
     void DidConnect(object sender, EventArgs e)
     {
         SceneManager.LoadScene(4);

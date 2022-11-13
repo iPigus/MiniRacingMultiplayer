@@ -58,6 +58,7 @@ public class ServerManager : NetworkManager
         CurrentTick++;
     }
     private void OnApplicationQuit() => server.Stop();
+    private void OnDestroy() => server.Stop();
 
     void SendStartGame()
     {
