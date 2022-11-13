@@ -8,12 +8,12 @@ public abstract class NetworkManager : MonoBehaviour
     public ushort CurrentTick { get; protected set; }
     public enum ClientToServerId : ushort 
     { 
-        playerInfo,
+        playerInfo = 0,
         playerInputs
     }
     public enum ServerToClientId : ushort
     {
-        gameStart,
+        gameStart = 1000,
         carPositions,
         carPhysicsData,
         placements,

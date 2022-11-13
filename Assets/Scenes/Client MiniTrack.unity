@@ -1876,6 +1876,37 @@ MonoBehaviour:
   - {fileID: 6716649342256385134, guid: d8e08a1a4baabf84e91cde96996b0e7a, type: 3}
   - {fileID: 6716649342256385134, guid: 191338fbfdf9eac439ef01258accd2da, type: 3}
   LeavePrompt: {fileID: 1949574962}
+--- !u!1 &1361857320
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1361857321}
+  m_Layer: 0
+  m_Name: InputSender
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1361857321
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361857320}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.6664219, y: 2.328879, z: -10.044958}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1433781643
 GameObject:
   m_ObjectHideFlags: 0
