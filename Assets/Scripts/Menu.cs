@@ -70,6 +70,7 @@ public class Menu : MonoBehaviour
         Application.runInBackground = true;
 
         CheckForNetworkManagers();
+        CheckForBuildVersion();
 
         EnterMainMenu();
         CarSelectionArrowsUpdate();
@@ -257,6 +258,17 @@ public class Menu : MonoBehaviour
     public void PlayBots()
     {
 
+    }
+
+    #endregion
+
+    #region Reset Stats For Legacy Builds
+
+    void CheckForBuildVersion()
+    {
+        int version = PlayerPrefs.GetInt("essunia124");
+
+        if (version == 0) PlayerPrefs.SetFloat("BestTime", 0f);
     }
 
     #endregion
