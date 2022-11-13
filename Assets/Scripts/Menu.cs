@@ -69,6 +69,8 @@ public class Menu : MonoBehaviour
     {
         Application.runInBackground = true;
 
+        CheckForNetworkManagers();
+
         EnterMainMenu();
         CarSelectionArrowsUpdate();
         GamemodeSelectionArrowsUpdate();
@@ -222,6 +224,24 @@ public class Menu : MonoBehaviour
 
     #endregion
 
+    #region NetworkManager Preventions
+
+    void CheckForNetworkManagers()
+    {
+        if (FindObjectOfType<NetworkManager>())
+        {
+            NetworkManager[] objectsToDestroy = FindObjectsOfType<NetworkManager>();
+
+            for (int i = 0; i < objectsToDestroy.Length; i++)
+            {
+                Destroy(objectsToDestroy[i]);
+            }
+        }
+    }
+
+    #endregion
+
+    #region Play Modes Handling
     public void PlayFreeplay()
     {
         SceneManager.LoadScene(1);
@@ -238,6 +258,8 @@ public class Menu : MonoBehaviour
     {
 
     }
+
+    #endregion
 
     public void SelectCar(int carId)
     {

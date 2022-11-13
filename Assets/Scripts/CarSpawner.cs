@@ -17,7 +17,9 @@ public class CarSpawner : MonoBehaviour
     {
         Singleton = this;
 
-        if (FindObjectOfType<ClientManager>()) return;
+        if (isClient) return;
+
+        Debug.Log("Spawning cars !!!");
 
         GameObject carSpawned = Instantiate(Cars[PlayerPrefs.GetInt("CarChosen")], transform.position, transform.rotation);
 
