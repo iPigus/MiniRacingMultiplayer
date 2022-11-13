@@ -55,6 +55,8 @@ public class CarSpawner : MonoBehaviour
     [MessageHandler((ushort)ServerToClientId.carInfos)]
     public static void CarSpawnFromMessage(Message message)
     {
+        Debug.Log("SPAWNING CAR FROM MESSAGE!");
+
         ushort playerId = message.GetUShort();
         ushort carId = message.GetUShort();
 

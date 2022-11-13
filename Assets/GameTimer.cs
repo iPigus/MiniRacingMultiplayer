@@ -37,7 +37,7 @@ public class GameTimer : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(1);
 
-            TimerText.text = startingNumber.ToString();
+            TimerText.text = i.ToString();
         }
 
         TimerCanvas.SetActive(false);
