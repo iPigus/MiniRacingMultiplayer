@@ -74,4 +74,11 @@ public class ServerManager : NetworkManager
 
         Singleton.messagesToSendAtSpawn.Add(message);
     }
+    [MessageHandler((ushort)ClientToServerId.playerInfo)]
+    public static void RecivingPlayerInfo(Message message)
+    {
+        int carChosen = message.GetInt();
+
+        CarSpawner.Singleton.SpawnClientCar(carChosen);
+    }
 }

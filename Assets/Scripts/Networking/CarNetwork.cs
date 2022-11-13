@@ -22,6 +22,21 @@ public class CarNetwork : MonoBehaviour
 
         CarId = (ushort)list.Count;
 
+        if (isServer)
+        {
+            if (CarId != 0)
+            {
+                GetComponent<InputHandler>().enabled = false;
+            }
+        }
+        else
+        {
+            if (CarId != ClientManager.Singleton.client.Id)
+            {
+                GetComponent<InputHandler>().enabled = false;
+            }
+        }
+
         list.Add(CarId,this);
     }
 
@@ -31,11 +46,8 @@ public class CarNetwork : MonoBehaviour
         
         lastPosition = Rigidbody.position;
 
-        if (isServer)
-        {
-            SendCarPosition();
-            SendCarData();
-        }
+        SendCarPosition();
+        SendCarData();
     }
     void SendCarPosition()
     {

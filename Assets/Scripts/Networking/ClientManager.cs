@@ -58,6 +58,16 @@ public class ClientManager : NetworkManager
     void DidConnect(object sender, EventArgs e)
     {
         SceneManager.LoadScene(4);
+
+        SendPlayerInfo();
+    }
+    public void SendPlayerInfo()
+    {
+        Message message = Message.Create(MessageSendMode.Reliable, ClientToServerId.playerInfo);
+
+        message.AddInt(PlayerPrefs.GetInt("CarChosen"));
+
+        client.Send(message);
     }
     void FailedToConnect(object sender, EventArgs e)
     {

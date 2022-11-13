@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Riptide;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,6 +29,14 @@ public class CarSpawner : MonoBehaviour
         
         if(!SceneManager.GetActiveScene().name.Contains("Time"))
             Time.timeScale = 1f;
+    }
+
+    public void SpawnClientCar(int carChosen)
+    {
+        GameObject carSpawned = Instantiate(Cars[carChosen], new Vector3(-6.77f, 4.45f, 0f), transform.rotation);
+
+        carSpawned.AddComponent<CarNetwork>().CarId = 1;
+        ServerManager.SetCarInfo(1, (ushort)carChosen, carSpawned.transform.position, carSpawned.GetComponent<Rigidbody2D>().rotation);
     }
 
     private void Update()
