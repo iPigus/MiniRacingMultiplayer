@@ -141,11 +141,9 @@ public class Menu : MonoBehaviour
                 switch (YposMultiSelection)
                 {
                     case 0: Back(); break;
-                    case 1: SceneManager.LoadScene(3); break;
-                    case 2: PlayerPrefs.SetString("ip", ipField.text);
-                        DontDestroyOnLoad(new GameObject().AddComponent<ClientManager>());
-                        ClientManager.Singleton.Connect();
-                        break;
+                    case 1: TryToHost(); break;
+                    case 2: TryToConnect(); break;
+
                     default: Debug.LogError("YposMulti switch unreachable!"); break;
                 }
             }
@@ -161,6 +159,20 @@ public class Menu : MonoBehaviour
         if (isInGamemodeSelectionScreen) EnterSelectionScreen();
         if (isInMultiSelectionScreen) EnterGamemodeSelection();
     }
+
+    #region Hosting and Connecting
+    public void TryToHost()
+    {
+        SceneManager.LoadScene(3);
+    }
+
+    public void TryToConnect()
+    {
+        if (FindObjectOfType<ClientManager>()) return;
+        DontDestroyOnLoad(new GameObject().AddComponent<ClientManager>());
+        ClientManager.Singleton.Connect();
+    }
+    #endregion
 
     #region Updating Arrows
 

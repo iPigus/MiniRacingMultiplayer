@@ -17,9 +17,9 @@ public class TopDownCarController : MonoBehaviour
     [Range(0f, 100f)]
     public float MaxSpeedInReverse = 2f;
 
-    float RoadMaxSpeedFactor => (.1f * WheelsOnTrack) + 0.6f;
-    float RoadAccerelationFactor => (.05f * WheelsOnTrack) + 0.8f;
-    float RoadDriftFactorFactor => 1.04f - (.01f * WheelsOnTrack);
+    float RoadMaxSpeedFactor => (.125f * WheelsOnTrack) + 0.5f;
+    float RoadAccerelationFactor => (.15f * WheelsOnTrack) + 0.4f;
+    float RoadDriftFactorFactor => 1.00f - (.005f * WheelsOnTrack);
 
     [SerializeField] Wheel[] Wheels;
 
@@ -92,11 +92,14 @@ public class TopDownCarController : MonoBehaviour
         steeringInput = inputVector.x;
         accerelationInput = inputVector.y; 
     }
+
+    float AdditionalDriftFactor = .99f;
+
     void KillOrthogonalVelocity()
     {
         Vector2 forwardVelocity = transform.up * Vector2.Dot(Rigidbody.velocity, transform.up);
         Vector2 rightVelocity = transform.right * Vector2.Dot(Rigidbody.velocity, transform.right);
 
-        Rigidbody.velocity = forwardVelocity + rightVelocity * (DriftFactor * RoadDriftFactorFactor);
+        Rigidbody.velocity = forwardVelocity + rightVelocity * (DriftFactor * RoadDriftFactorFactor * AdditionalDriftFactor);
     }
 }

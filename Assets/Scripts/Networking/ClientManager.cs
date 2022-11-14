@@ -45,6 +45,8 @@ public class ClientManager : NetworkManager
     {
         Debug.Log("Trying to connect at: " + $"{ip}:{port}"); isTryingToConnect = true;
 
+        ClientModeStatus.SetText("Connecting");
+
         if (client == null) client = new Riptide.Client();
 
         client.Connect($"{ip}:{port}");
@@ -67,7 +69,15 @@ public class ClientManager : NetworkManager
     }
     void FailedToConnect(object sender, EventArgs e)
     {
+        ClientModeStatus.SetText("Failed to connect!");
         Debug.Log("Failed to connect!");
+    }
+
+    IEnumerator ConnectAfterTime(float time)
+    {
+        yield return new WaitForSecondsRealtime(time);
+
+        ClientModeStatus.SetText("Client Mode");
     }
     void DidDisconnect(object sender, EventArgs e)
     {
