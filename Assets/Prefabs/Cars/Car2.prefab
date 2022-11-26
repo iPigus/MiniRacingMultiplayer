@@ -368,11 +368,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64e438ae1998f9449b357a09836fdbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Accerelation: 22
-  TurnFactor: 3.8
-  DriftFactor: 0.955
-  MaxSpeed: 13
-  MaxSpeedInReverse: 2.4
+  Accerelation: 25
+  TurnFactor: 3.3
+  DriftFactor: 0.94
+  MaxSpeed: 15
+  MaxSpeedInReverse: 3
   Wheels:
   - {fileID: 2093477997894009002}
   - {fileID: 1894011100699712569}
