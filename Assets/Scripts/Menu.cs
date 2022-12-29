@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
@@ -13,12 +14,14 @@ public class Menu : MonoBehaviour
     [SerializeField] GameObject SelectionScreen;
     [SerializeField] GameObject GamemodeSelectionScreen;
     [SerializeField] GameObject MultiSelectionScreen;
+    [SerializeField] GameObject CustomizeCarScreen;
 
     bool isMultiplayerSelected = false;
     bool isOnMainScreen => MainScreen.activeSelf;
     bool isInSelectionScreen => SelectionScreen.activeSelf;
     bool isInGamemodeSelectionScreen => GamemodeSelectionScreen.activeSelf;
     bool isInMultiSelectionScreen => MultiSelectionScreen.activeSelf;
+    bool isInCustomizeCarScreenScreen => CustomizeCarScreen.activeSelf;
 
     #region Arrows and Controllers for them
 
@@ -30,7 +33,7 @@ public class Menu : MonoBehaviour
         get => _carSelected;
         set
         {
-            if(value >= 0 && value <= 6) _carSelected = value;
+            if (value >= 0 && value <= 6) _carSelected = value;
         }
     }
 
@@ -63,6 +66,17 @@ public class Menu : MonoBehaviour
         }
     }
 
+    [SerializeField] GameObject[] ArrowsInCustomizeCar;
+    int _SelectedCustomizeRow = 1;
+    int SelectedCustomizeRow
+    {
+        get => _SelectedCustomizeRow;
+        set
+        {
+            if (value < 0 || value > 5) return; _SelectedCustomizeRow = value;
+        }
+    }
+
     #endregion
 
     private void Awake()
@@ -76,6 +90,7 @@ public class Menu : MonoBehaviour
         CarSelectionArrowsUpdate();
         GamemodeSelectionArrowsUpdate();
         MultiSelectionArrowsUpdate();
+        CustomizeCarArrowsUpdate();
     }
 
     private void Update()
@@ -87,9 +102,9 @@ public class Menu : MonoBehaviour
 
         if (isOnMainScreen)
         {
-            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) EnterSelectionScreen();
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) EnterSelectionScreen();
         }
-        else if(isInSelectionScreen)
+        else if (isInSelectionScreen)
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) CarSelected++;
             else
@@ -150,9 +165,30 @@ public class Menu : MonoBehaviour
 
             MultiSelectionArrowsUpdate();
         }
+        else if (isInCustomizeCarScreenScreen)
+        {
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) SelectedCustomizeRow--;
+            else
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) SelectedCustomizeRow++;
+            else
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) MoveLeft();
+            else
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) MoveRight();
+            else
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            {
+                switch (SelectedCustomizeRow)
+                {
+                    case 0: Back(); break;
+                    case 5: SelectCustomCar(); break;
+                }
+            }
+
+            CustomizeCarArrowsUpdate();
+        }
     }
 
-   
+
     public void Back()
     {
         if (isInSelectionScreen) EnterMainMenu();
@@ -188,7 +224,7 @@ public class Menu : MonoBehaviour
             {
                 if (ArrowsInCarSelection[i].activeSelf) ArrowsInCarSelection[i].SetActive(false);
             }
-        }        
+        }
     }
     void GamemodeSelectionArrowsUpdate()
     {
@@ -215,6 +251,21 @@ public class Menu : MonoBehaviour
             else
             {
                 if (ArrowsInMultiSelection[i].activeSelf) ArrowsInMultiSelection[i].SetActive(false);
+            }
+        }
+    }
+
+    void CustomizeCarArrowsUpdate()
+    {
+        for (int i = 0; i < ArrowsInCustomizeCar.Length; i++)
+        {
+            if (i == SelectedCustomizeRow)
+            {
+                if (!ArrowsInCustomizeCar[i].activeSelf) ArrowsInCustomizeCar[i].SetActive(true);
+            }
+            else
+            {
+                if (ArrowsInCustomizeCar[i].activeSelf) ArrowsInCustomizeCar[i].SetActive(false);
             }
         }
     }
@@ -274,13 +325,119 @@ public class Menu : MonoBehaviour
 
     #endregion
 
+    #region Customize Car Handling
+
+    [Header("Custom Car Things")]
+    [SerializeField] Image CarImage;
+    [SerializeField] TextMeshProUGUI SpeedText;
+    [SerializeField] TextMeshProUGUI AccerelationText;
+    [SerializeField] TextMeshProUGUI DriftnessText;
+
+    [SerializeField] Sprite[] SelectableCars;
+    [SerializeField] int minSpeed = 8;
+    [SerializeField] int maxSpeed = 60;
+    [SerializeField] int minAccerelation = 5;
+    [SerializeField] int maxAccerelation = 20;
+    [SerializeField] int minDriftness = 5;
+    [SerializeField] int maxDriftness = 100;
+
+
+    int actualSprite
+    {
+        get => PlayerPrefs.GetInt("CustomSprite");
+        set
+        {
+            if (value >= SelectableCars.Length) PlayerPrefs.SetInt("CustomSprite", 0);
+            if ( value < 0) PlayerPrefs.SetInt("CustomSprite", SelectableCars.Length - 1);
+            else PlayerPrefs.SetInt("CustomSprite", value);
+        }
+    }
+    int actualSpeed
+    {
+        get => PlayerPrefs.GetInt("CustomSpeed");
+        set
+        {
+            if (value > maxSpeed || value < minSpeed || Mathf.Sqrt((float)(value * actualAccerelation)) > 28f) return;
+
+            PlayerPrefs.SetInt("CustomSpeed", value);
+        }
+    }
+    int actualAccerelation
+    {
+        get => PlayerPrefs.GetInt("CustomAccerelation");
+        set
+        {
+            if (value > minAccerelation || value < maxAccerelation || Mathf.Sqrt((float)(value * actualAccerelation)) > 28f) return;
+
+            PlayerPrefs.SetInt("CustomAccerelation", value);
+        }
+    }
+    int actualDriftness
+    {
+        get => PlayerPrefs.GetInt("CustomDriftness");
+        set
+        {
+            if (value > minDriftness || value < maxDriftness) return;
+
+            PlayerPrefs.SetInt("CustomDriftness", value);
+        }
+    }
+
+    void MoveLeft()
+    {
+        switch (SelectedCustomizeRow)
+        {
+            case 1: actualSprite--; break;
+            case 2: actualSpeed--;break;
+            case 3: actualAccerelation--; break;
+            case 4: actualDriftness--; break;
+            default: break;
+        }
+
+        UpdateCustomTextsAndImageInCarCustomize();
+    }
+
+    void MoveRight()
+    {
+        switch (SelectedCustomizeRow)
+        {
+            case 1: actualSprite++; break;
+            case 2: actualSpeed++; break;
+            case 3: actualAccerelation++; break;
+            case 4: actualDriftness++; break;
+            default: break;
+        }
+
+        UpdateCustomTextsAndImageInCarCustomize();
+    }
+
+    void UpdateCustomTextsAndImageInCarCustomize()
+    {
+        CarImage.sprite = SelectableCars[actualSprite];
+        SpeedText.text = "Speed " + actualSpeed.ToString(); 
+        AccerelationText.text = "Accerelation " + actualSpeed.ToString(); 
+        DriftnessText.text = "Driftness " + actualSpeed.ToString(); 
+    }
+
+    #endregion
+
     #region Reset Stats For Legacy Builds
 
     void CheckForBuildVersion()
     {
-        int version = PlayerPrefs.GetInt("essunia124");
+        int version = PlayerPrefs.GetInt("essunia127");
 
-        if (version == 0) PlayerPrefs.SetFloat("BestTime", 0f);
+        if (version == 0)
+        {
+            PlayerPrefs.SetFloat("BestTime", 0f);
+            PlayerPrefs.SetInt("CustomDriftness", 80);
+            PlayerPrefs.SetInt("CustomSprite", 0);
+            PlayerPrefs.SetInt("CustomSpeed", 30);
+            PlayerPrefs.SetInt("CustomAccerelation", 15);
+
+
+            PlayerPrefs.SetInt("essunia127", 1);
+        }
     }
 
     #endregion
@@ -288,8 +445,16 @@ public class Menu : MonoBehaviour
     public void SelectCar(int carId)
     {
         PlayerPrefs.SetInt("CarChosen", carId - 1);
+        PlayerPrefs.SetInt("isCarCustom", 0);
 
         EnterGamemodeSelection();
     }
     public void SelectCar() => SelectCar(CarSelected);
+
+    public void SelectCustomCar()
+    {
+        PlayerPrefs.SetInt("isCarCustom", 1);
+
+        EnterGamemodeSelection();
+    }
 }
